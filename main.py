@@ -7,7 +7,7 @@ def inserir(diccionario):
             "email": input("Digite seu email: "),
             "telefone": input("Digite seu telefone: "),
             "Twitter": input("Digite seu Twitter: "),
-            "Instragram": input("Digite o Instagram: ")
+            "Instagram": input("Digite o Instagram: ")
         }
     }
     diccionario.update(contato)
@@ -30,7 +30,17 @@ def pesquisar():
 
 
 def listar():
-    pass
+    with open("agenda_telefonica.json", encoding='utf-8') as meu_json:
+        contatos = json.load(meu_json)
+    
+    for contato in contatos.keys():
+        print('-------------------------')
+        print(f'nome: {contato}')
+        print(f'email: {contatos[contato]["email"]}')
+        print(f'telefone: {contatos[contato]["telefone"]}')
+        print(f'Twitter: {contatos[contato]["Twitter"]}')
+        print(f'Instagram: {contatos[contato]["Instagram"]}')
+        print('-------------------------')
 
 
 def principal():
