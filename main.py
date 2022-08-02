@@ -1,13 +1,23 @@
 import json
 
+
 def inserir(diccionario):
+    contatos = abrir_agenda()
+
+    diccionario.update(contatos)
+
     nome = input("Digite seu nome: ")
+    email = input("Digite seu email: ")
+    telefone = input("Digite seu telefone: ")
+    twitter = input("Digite seu Twitter: ")
+    instagram = input("Digite o Instagram: ")
+
     contato = {
         nome: {
-            "email": input("Digite seu email: "),
-            "telefone": input("Digite seu telefone: "),
-            "Twitter": input("Digite seu Twitter: "),
-            "Instagram": input("Digite o Instagram: ")
+            "email": email,
+            "telefone": telefone,
+            "Twitter": twitter,
+            "Instagram": instagram
         }
     }
     diccionario.update(contato)
@@ -16,6 +26,7 @@ def inserir(diccionario):
     arquivo = open("agenda_telefonica.json", "w")
     json.dump(diccionario, arquivo)
     arquivo.close()
+
 
 def alterar():
     pass
@@ -26,21 +37,22 @@ def remover():
 
 
 def pesquisar():
-    pass
+    contato_encontrado = False
+    nome = input("Digite seu nome: ")
+
+    contatos = abrir_agenda()
+    for contato in contatos.keys():
+        if contato == nome:
+            contato_encontrado = True
+            imprimir_contato(contato, contatos)
+    if not contato_encontrado:
+        print("Contato não encontrado!Tente novamente!")
 
 
 def listar():
-    with open("agenda_telefonica.json", encoding='utf-8') as meu_json:
-        contatos = json.load(meu_json)
-    
+    contatos = abrir_agenda()
     for contato in contatos.keys():
-        print('-------------------------')
-        print(f'nome: {contato}')
-        print(f'email: {contatos[contato]["email"]}')
-        print(f'telefone: {contatos[contato]["telefone"]}')
-        print(f'Twitter: {contatos[contato]["Twitter"]}')
-        print(f'Instagram: {contatos[contato]["Instagram"]}')
-        print('-------------------------')
+        imprimir_contato(contato, contatos)
 
 
 def principal():
@@ -71,6 +83,22 @@ def principal():
             break
         else:
             print("Opção inválida. Por favor, tente novamente.")
+
+
+def abrir_agenda():
+    with open("agenda_telefonica.json", encoding='utf-8') as meu_json:
+        contatos = json.load(meu_json)
+    return contatos
+
+
+def imprimir_contato(contato, contatos):
+    return print('-------------------------\n'
+                 f'nome: {contato}\n'
+                 f'email: {contatos[contato]["email"]}\n'
+                 f'telefone: {contatos[contato]["telefone"]}\n'
+                 f'Twitter: {contatos[contato]["Twitter"]}\n'
+                 f'Instagram: {contatos[contato]["Instagram"]}\n'
+                 '-------------------------')
 
 
 principal()

@@ -1,13 +1,3 @@
-Caro aluno,
-
-A Prática deverá ser realizada individualmente, o que não impede que os alunos
-se reúnam para discussão no fórum. Cabe observar que cada aluno deverá
-desenvolver e postar sua própria atividade na Sala de Aula Virtual (blackboard), no
-menu atividade ativa.
-
-Trabalhos contendo plágio de código ou idênticos a algum colega de sala receberão
-nota ZERO.
-
 Desenvolva uma agenda telefônica em python, que irá armazenar números de
 telefone, e-mail e usuários do Twitter e Instagram. Os critérios de pontuação serão
 descritos abaixo:
