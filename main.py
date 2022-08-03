@@ -3,14 +3,13 @@ import json
 
 def inserir(diccionario):
     contatos = abrir_agenda()
-
     diccionario.update(contatos)
 
-    nome = input("Digite seu nome: ")
-    email = input("Digite seu email: ")
-    telefone = input("Digite seu telefone: ")
-    twitter = input("Digite seu Twitter: ")
-    instagram = input("Digite o Instagram: ")
+    nome = input("Digite seu nome: ").strip()
+    email = input("Digite seu email: ").strip()
+    telefone = input("Digite seu telefone: ").strip()
+    twitter = input("Digite seu Twitter: ").strip()
+    instagram = input("Digite o Instagram: ").strip()
 
     contato = {
         nome: {
@@ -38,21 +37,27 @@ def remover():
 
 def pesquisar():
     contato_encontrado = False
-    nome = input("Digite seu nome: ")
+    nome = input("Digite um nome: ")
 
     contatos = abrir_agenda()
-    for contato in contatos.keys():
-        if contato == nome:
-            contato_encontrado = True
-            imprimir_contato(contato, contatos)
+    try:
+        for contato in contatos.keys():
+            if contato.lower() == nome.lower():
+                contato_encontrado = True
+                imprimir_contato(contato, contatos)
+    except AttributeError:
+        print("Não tem dados salvados! ")
     if not contato_encontrado:
         print("Contato não encontrado!Tente novamente!")
 
 
 def listar():
     contatos = abrir_agenda()
-    for contato in contatos.keys():
-        imprimir_contato(contato, contatos)
+    try:
+        for contato in contatos.keys():
+            imprimir_contato(contato, contatos)
+    except AttributeError:
+        print("Não tem dados salvados! ")
 
 
 def principal():
@@ -66,8 +71,8 @@ def principal():
         print(" 4- Consultar contato")
         print(" 5- Listar contatos")
         print(" 6- Sair")
-        opcao = int(input(" > "))
 
+        opcao = int(input(" > "))
         if opcao == 1:
             inserir(diccionario)
         elif opcao == 2:
@@ -86,10 +91,12 @@ def principal():
 
 
 def abrir_agenda():
-    with open("agenda_telefonica.json", encoding='utf-8') as meu_json:
-        contatos = json.load(meu_json)
-    return contatos
-
+    try:
+        with open("agenda_telefonica.json", encoding='utf-8') as meu_json:
+            contatos = json.load(meu_json)
+        return contatos
+    except FileNotFoundError:
+        return ''
 
 def imprimir_contato(contato, contatos):
     return print('-------------------------\n'
