@@ -32,7 +32,17 @@ def alterar():
 
 
 def remover():
-    pass
+    contato_encontrado = False
+    nome = input("Digite um nome: ")
+
+    contatos = abrir_agenda()
+
+    contatos.pop(nome)
+
+    # TODO Guardar en una funcion
+    arquivo = open("agenda_telefonica.json", "w")
+    json.dump(contatos, arquivo)
+    arquivo.close()
 
 
 def pesquisar():
@@ -40,6 +50,7 @@ def pesquisar():
     nome = input("Digite um nome: ")
 
     contatos = abrir_agenda()
+    # TODO botar en funcion procura_contato
     try:
         for contato in contatos.keys():
             if contato.lower() == nome.lower():
