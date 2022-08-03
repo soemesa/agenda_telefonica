@@ -1,9 +1,8 @@
 import json
 
 
-def inserir(diccionario):
+def inserir():
     contatos = abrir_agenda()
-    diccionario.update(contatos)
 
     nome = input("Digite seu nome: ").strip()
     email = input("Digite seu email: ").strip()
@@ -19,11 +18,11 @@ def inserir(diccionario):
             "Instagram": instagram
         }
     }
-    diccionario.update(contato)
+    contatos.update(contato)
     print(f"O contato {nome} foi cadastrado com sucesso!")
 
     arquivo = open("agenda_telefonica.json", "w")
-    json.dump(diccionario, arquivo)
+    json.dump(contatos, arquivo)
     arquivo.close()
 
 
@@ -38,6 +37,7 @@ def remover():
     contatos = abrir_agenda()
 
     contatos.pop(nome)
+    print(f"O contato {nome} foi removido com sucesso!")
 
     # TODO Guardar en una funcion
     arquivo = open("agenda_telefonica.json", "w")
@@ -72,7 +72,6 @@ def listar():
 
 
 def principal():
-    diccionario = {}
 
     while True:
         print(" === Agenda Telefônica === ")
@@ -85,7 +84,7 @@ def principal():
 
         opcao = int(input(" > "))
         if opcao == 1:
-            inserir(diccionario)
+            inserir()
         elif opcao == 2:
             alterar()
         elif opcao == 3:
