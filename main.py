@@ -21,9 +21,7 @@ def inserir():
     contatos.update(contato)
     print(f"O contato {nome} foi cadastrado com sucesso!")
 
-    arquivo = open("agenda_telefonica.json", "w")
-    json.dump(contatos, arquivo)
-    arquivo.close()
+    salvar_arquivo(contatos)
 
 
 def alterar():
@@ -31,7 +29,6 @@ def alterar():
 
 
 def remover():
-    contato_encontrado = False
     nome = input("Digite um nome: ")
 
     contatos = abrir_agenda()
@@ -39,27 +36,20 @@ def remover():
     contatos.pop(nome)
     print(f"O contato {nome} foi removido com sucesso!")
 
-    # TODO Guardar en una funcion
-    arquivo = open("agenda_telefonica.json", "w")
-    json.dump(contatos, arquivo)
-    arquivo.close()
-
+    salvar_arquivo(contatos)
 
 def pesquisar():
     contato_encontrado = False
     nome = input("Digite um nome: ")
 
-    contatos = abrir_agenda()
-    # TODO botar en funcion procura_contato
-    try:
-        for contato in contatos.keys():
-            if contato.lower() == nome.lower():
-                contato_encontrado = True
-                imprimir_contato(contato, contatos)
-    except AttributeError:
-        print("Não tem dados salvados! ")
-    if not contato_encontrado:
-        print("Contato não encontrado!Tente novamente!")
+    contato = procura_contato_em_arquivo(nome)
+
+    imprimir_contato(contato)
+
+    # except AttributeError:
+    #     print("Não tem dados salvados! ")
+    # if not contato_encontrado:
+    #     print("Contato não encontrado!Tente novamente!")
 
 
 def listar():
@@ -72,7 +62,6 @@ def listar():
 
 
 def principal():
-
     while True:
         print(" === Agenda Telefônica === ")
         print(" 1- Inserir contato")
@@ -106,16 +95,30 @@ def abrir_agenda():
             contatos = json.load(meu_json)
         return contatos
     except FileNotFoundError:
-        return ''
+        return {}
 
-def imprimir_contato(contato, contatos):
-    return print('-------------------------\n'
-                 f'nome: {contato}\n'
-                 f'email: {contatos[contato]["email"]}\n'
-                 f'telefone: {contatos[contato]["telefone"]}\n'
-                 f'Twitter: {contatos[contato]["Twitter"]}\n'
-                 f'Instagram: {contatos[contato]["Instagram"]}\n'
-                 '-------------------------')
+
+def imprimir_contato(contato):
+    for nome, valor in contato.items():
+        return print('-------------------------\n'
+                     f'nome: {nome}\n'
+                     f'email: {valor["email"]}\n'
+                     f'telefone: {valor["telefone"]}\n'
+                     f'Twitter: {valor["Twitter"]}\n'
+                     f'Instagram: {valor["Instagram"]}\n'
+                     '-------------------------')
+
+
+def salvar_arquivo(contatos):
+    arquivo = open("agenda_telefonica.json", "w")
+    json.dump(contatos, arquivo)
+    arquivo.close()
+
+def procura_contato_em_arquivo(nome):
+    contatos = abrir_agenda()
+    for contato, valor in contatos.items():
+        if contato.lower() == nome.lower():
+            return {contato: valor}
 
 
 principal()
