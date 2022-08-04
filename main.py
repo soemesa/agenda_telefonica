@@ -38,27 +38,16 @@ def remover():
 
     salvar_arquivo(contatos)
 
+
 def pesquisar():
-    contato_encontrado = False
     nome = input("Digite um nome: ")
-
     contato = procura_contato_em_arquivo(nome)
-
     imprimir_contato(contato)
-
-    # except AttributeError:
-    #     print("Não tem dados salvados! ")
-    # if not contato_encontrado:
-    #     print("Contato não encontrado!Tente novamente!")
 
 
 def listar():
     contatos = abrir_agenda()
-    try:
-        for contato in contatos.keys():
-            imprimir_contato(contato, contatos)
-    except AttributeError:
-        print("Não tem dados salvados! ")
+    imprimir_contato(contatos)
 
 
 def principal():
@@ -67,7 +56,7 @@ def principal():
         print(" 1- Inserir contato")
         print(" 2- Alterar contato")
         print(" 3- Remover contato")
-        print(" 4- Consultar contato")
+        print(" 4- Pesquisar contato")
         print(" 5- Listar contatos")
         print(" 6- Sair")
 
@@ -99,14 +88,19 @@ def abrir_agenda():
 
 
 def imprimir_contato(contato):
+    # try:
     for nome, valor in contato.items():
-        return print('-------------------------\n'
-                     f'nome: {nome}\n'
-                     f'email: {valor["email"]}\n'
-                     f'telefone: {valor["telefone"]}\n'
-                     f'Twitter: {valor["Twitter"]}\n'
-                     f'Instagram: {valor["Instagram"]}\n'
-                     '-------------------------')
+        if nome == '':
+            return print('no tienes contactos')
+        print('-------------------------\n'
+              f'nome: {nome}\n'
+              f'email: {valor["email"]}\n'
+              f'telefone: {valor["telefone"]}\n'
+              f'Twitter: {valor["Twitter"]}\n'
+              f'Instagram: {valor["Instagram"]}\n'
+              '-------------------------')
+    # except AttributeError:
+    #     print(f"Contato não encontrado!! Tente novamente!!")
 
 
 def salvar_arquivo(contatos):
@@ -114,11 +108,13 @@ def salvar_arquivo(contatos):
     json.dump(contatos, arquivo)
     arquivo.close()
 
+
 def procura_contato_em_arquivo(nome):
     contatos = abrir_agenda()
     for contato, valor in contatos.items():
         if contato.lower() == nome.lower():
             return {contato: valor}
-
+        if contato == '':
+            return {}
 
 principal()
