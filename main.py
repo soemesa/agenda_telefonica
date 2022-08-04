@@ -47,6 +47,8 @@ def pesquisar():
 
 def listar():
     contatos = abrir_agenda()
+    if len(contatos) == 0:
+        return print('no tienes contactos')
     imprimir_contato(contatos)
 
 
@@ -88,19 +90,17 @@ def abrir_agenda():
 
 
 def imprimir_contato(contato):
-    # try:
-    for nome, valor in contato.items():
-        if nome == '':
-            return print('no tienes contactos')
-        print('-------------------------\n'
-              f'nome: {nome}\n'
-              f'email: {valor["email"]}\n'
-              f'telefone: {valor["telefone"]}\n'
-              f'Twitter: {valor["Twitter"]}\n'
-              f'Instagram: {valor["Instagram"]}\n'
-              '-------------------------')
-    # except AttributeError:
-    #     print(f"Contato não encontrado!! Tente novamente!!")
+    try:
+        for nome, valor in contato.items():
+            print('-------------------------\n'
+                  f'nome: {nome}\n'
+                  f'email: {valor["email"]}\n'
+                  f'telefone: {valor["telefone"]}\n'
+                  f'Twitter: {valor["Twitter"]}\n'
+                  f'Instagram: {valor["Instagram"]}\n'
+                  '-------------------------')
+    except AttributeError:
+        print(f"Contato não encontrado!! Tente novamente!!")
 
 
 def salvar_arquivo(contatos):
