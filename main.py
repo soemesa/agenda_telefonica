@@ -31,8 +31,10 @@ def alterar():
 def remover():
     nome = input("Digite um nome: ")
 
-    contatos = abrir_agenda()
+    contatos = procura_contato_em_arquivo(nome)
 
+    for nome in contatos.keys():
+        pass
     contatos.pop(nome)
     print(f"O contato {nome} foi removido com sucesso!")
 
@@ -48,7 +50,7 @@ def pesquisar():
 def listar():
     contatos = abrir_agenda()
     if len(contatos) == 0:
-        return print('no tienes contactos')
+        return print('Não existem contatos cadastrados!!')
     imprimir_contato(contatos)
 
 
