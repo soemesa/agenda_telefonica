@@ -35,11 +35,11 @@ def principal():
 def criar():
     contatos = abrir_agenda()
 
-    nome = input("Digite seu nome: ").strip()
-    email = input("Digite seu email: ").strip()
-    telefone = input("Digite seu telefone: ").strip()
-    twitter = input("Digite seu Twitter: ").strip()
-    instagram = input("Digite o Instagram: ").strip()
+    nome = input("Digite seu nome: ")
+    email = input("Digite seu email: ")
+    telefone = input("Digite seu telefone: ")
+    twitter = input("Digite seu Twitter: ")
+    instagram = input("Digite o Instagram: ")
 
     contato = {
         nome: {
@@ -57,40 +57,37 @@ def criar():
 
 def alterar():
     nome = input("Digite o nome a ser alterado: ")
-
-    contatos = procura_contato_em_arquivo(nome)
+    contatos = abrir_agenda()
     try:
+        for chave, valor in contatos.items():
+            if chave.lower() == nome.lower():
+                nome = input("Digite um novo nome: ")
+                email = input("Digite um novo email: ")
+                telefone = input("Digite um novo telefone: ")
+                twitter = input("Digite um novo Twitter: ")
+                instagram = input("Digite um novo Instagram: ")
 
-        for chave in contatos.keys():
-            # TODO editar contato
-            nome = input("Digite um novo nome: ").strip()
-            email = input("Digite um novo email: ").strip()
-            telefone = input("Digite um novo telefone: ").strip()
-            twitter = input("Digite um novo Twitter: ").strip()
-            instagram = input("Digite um novo Instagram: ").strip()
+                valor['email'] = email
+                valor['telefone'] = telefone
+                valor['twitter'] = twitter
+                valor['instagram'] = instagram
 
-            contatos[chave]['email'] = email
-            contatos[chave]['telefone'] = telefone
-            contatos[chave]['twitter'] = twitter
-            contatos[chave]['instagram'] = instagram
         contatos[nome] = contatos.pop(chave)
         salvar_arquivo(contatos)
         print("Contato atualizado com sucesso!!")
-
     except AttributeError:
         print("Contato inexistente!!")
 
 
+# TODO está removendo tudo quando apago um contato só
 def remover():
     nome = input("Digite um nome: ")
-
     contatos = procura_contato_em_arquivo(nome)
 
     for nome in contatos.keys():
         pass
     contatos.pop(nome)
     print(f"O contato {nome} foi removido com sucesso!")
-
     salvar_arquivo(contatos)
 
 
