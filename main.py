@@ -79,16 +79,18 @@ def alterar():
         print("Contato inexistente!!")
 
 
-# TODO está removendo tudo quando apago um contato só
 def remover():
     nome = input("Digite um nome: ")
     contatos = procura_contato_em_arquivo(nome)
 
-    for nome in contatos.keys():
-        pass
-    contatos.pop(nome)
-    print(f"O contato {nome} foi removido com sucesso!")
-    salvar_arquivo(contatos)
+    try:
+        for nome in contatos.keys():
+            pass
+        contatos.pop(nome)
+        print(f"O contato {nome} foi removido com sucesso!")
+        salvar_arquivo(contatos)
+    except AttributeError:
+        print('Não existem contatos crie um')
 
 
 def pesquisar():
