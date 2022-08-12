@@ -58,6 +58,7 @@ def criar():
 def alterar():
     nome = input("Digite o nome a ser alterado: ")
     contatos = abrir_agenda()
+    contato_alterado = False
     try:
         for chave, valor in contatos.items():
             if chave.lower() == nome.lower():
@@ -72,9 +73,12 @@ def alterar():
                 valor['twitter'] = twitter
                 valor['instagram'] = instagram
 
-        contatos[nome] = contatos.pop(chave)
-        salvar_arquivo(contatos)
-        print("Contato atualizado com sucesso!!")
+                contatos[nome] = contatos.pop(chave)
+                salvar_arquivo(contatos)
+                contato_alterado = True
+                print("Contato atualizado com sucesso!!")
+        if contato_alterado == False:
+            print('Contato inexistente!')
     except AttributeError:
         print("Contato inexistente!!")
 
