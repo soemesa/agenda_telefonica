@@ -35,11 +35,11 @@ def principal():
 def criar_contato():
     contatos = abrir_agenda()
 
-    nome = input("Digite seu nome: ")
-    email = input("Digite seu email: ")
-    telefone = input("Digite seu telefone: ")
-    twitter = input("Digite seu Twitter: ")
-    instagram = input("Digite o Instagram: ")
+    nome = input("Digite um nome: ")
+    email = input("Digite um email: ")
+    telefone = input("Digite um telefone: ")
+    twitter = input("Digite um Twitter: ")
+    instagram = input("Digite um Instagram: ")
 
     contato = {
         nome: {
@@ -58,8 +58,12 @@ def criar_contato():
 def criar_contatos():
     quantidade_contatos = int(input('Quantidade de contatos a criar: '))
 
-    for contato in range(quantidade_contatos):
-        criar_contato()
+    try:
+        for contato in range(quantidade_contatos):
+            criar_contato()
+    except ValueError:
+        print("Item inválido!! Selecione uma opçao da lista!!")
+
 
 def alterar():
     nome = input("Digite o nome a ser alterado: ")
