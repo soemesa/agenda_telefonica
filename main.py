@@ -2,34 +2,31 @@ import json
 
 
 def principal():
-    try:
-        while True:
-            print(" === Agenda Telefônica === ")
-            print(" 1- Criar contato")
-            print(" 2- Alterar contato")
-            print(" 3- Remover contato")
-            print(" 4- Pesquisar contato")
-            print(" 5- Listar contatos")
-            print(" 6- Sair")
+    while True:
+        print(" === Agenda Telefônica === ")
+        print(" 1- Criar contato")
+        print(" 2- Alterar contato")
+        print(" 3- Remover contato")
+        print(" 4- Pesquisar contato")
+        print(" 5- Listar contatos")
+        print(" 6- Sair")
 
-            opcao = int(input(" > "))
-            if opcao == 1:
-                criar_contatos()
-            elif opcao == 2:
-                alterar()
-            elif opcao == 3:
-                remover()
-            elif opcao == 4:
-                pesquisar()
-            elif opcao == 5:
-                listar()
-            elif opcao == 6:
-                print("Saindo da agenda...")
-                break
-            else:
-                print("Opção inválida. Por favor, tente novamente.")
-    except ValueError:
-        print("Opção inválida!! Selecione uma opçao da lista!!")
+        opcao = input(" > ")
+        if opcao not in '123456':
+            print('Opção inválida. Por favor, tente novamente.')
+        elif opcao == '1':
+            criar_contatos()
+        elif opcao == '2':
+            alterar()
+        elif opcao == '3':
+            remover()
+        elif opcao == '4':
+            pesquisar()
+        elif opcao == '5':
+            listar()
+        elif opcao == '6':
+            print("Saindo da agenda...")
+            break
 
 
 def criar_contato():
@@ -56,13 +53,13 @@ def criar_contato():
 
 
 def criar_contatos():
-    quantidade_contatos = int(input('Quantidade de contatos a criar: '))
-
-    try:
-        for contato in range(quantidade_contatos):
-            criar_contato()
-    except ValueError:
-        print("Item inválido!! Selecione uma opçao da lista!!")
+    while True:
+        try:
+            quantidade_contatos = input('Quantidade de contatos a criar: ')
+            for contato in range(int(quantidade_contatos)):
+                criar_contato()
+        except ValueError:
+            print("Número inválido!! Digite um número entero por favor!!")
 
 
 def alterar():
