@@ -14,7 +14,7 @@ def principal():
 
             opcao = int(input(" > "))
             if opcao == 1:
-                criar()
+                criar_contatos()
             elif opcao == 2:
                 alterar()
             elif opcao == 3:
@@ -32,7 +32,7 @@ def principal():
         print("Opção inválida!! Selecione uma opçao da lista!!")
 
 
-def criar():
+def criar_contato():
     contatos = abrir_agenda()
 
     nome = input("Digite seu nome: ")
@@ -54,6 +54,12 @@ def criar():
 
     salvar_arquivo(contatos)
 
+
+def criar_contatos():
+    quantidade_contatos = int(input('Quantidade de contatos a criar: '))
+
+    for contato in range(quantidade_contatos):
+        criar_contato()
 
 def alterar():
     nome = input("Digite o nome a ser alterado: ")
