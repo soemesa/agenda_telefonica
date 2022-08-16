@@ -13,7 +13,7 @@ def principal():
 
         opcao = input(" > ")
         if opcao not in '123456':
-            print('Opção inválida. Por favor, tente novamente.')
+            print('Opção inválida. Insira um numero da lista.')
         elif opcao == '1':
             criar_contatos()
         elif opcao == '2':
@@ -34,7 +34,7 @@ def criar_contato():
     lista_nome = list(contatos.keys())
     nome = input("Digite um nome: ")
     while nome.lower() in mudar_minuscula(lista_nome):
-        print(f'O contato {nome} já existe. Digite outro')
+        print(f'{nome} já está cadastrado. Digite outro nome')
         nome = input("Digite um nome: ")
 
     email = input("Digite um email: ")
@@ -70,7 +70,7 @@ def criar_contatos():
                 criar_contato()
             principal()
         except ValueError:
-            print("Número inválido!! Digite um número entero por favor!!")
+            print("Caracter inválido!! Digite um número por favor!!")
 
 
 def alterar():
