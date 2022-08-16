@@ -31,10 +31,10 @@ def principal():
 
 def criar_contato():
     contatos = abrir_agenda()
-
+    lista_nome = list(contatos.keys())
     nome = input("Digite um nome: ")
-    while nome in list(contatos.keys()):
-        print('O nome existe nome digite outro')
+    while nome.lower() in mudar_minuscula(lista_nome):
+        print(f'O contato {nome} já existe. Digite outro')
         nome = input("Digite um nome: ")
 
     email = input("Digite um email: ")
@@ -56,6 +56,12 @@ def criar_contato():
     salvar_arquivo(contatos)
 
 
+def mudar_minuscula(lista):
+    for nome in range(len(lista)):
+        lista[nome] = lista[nome].lower()
+    return lista
+
+
 def criar_contatos():
     while True:
         try:
@@ -75,8 +81,9 @@ def alterar():
         for chave in contatos.copy():
             if chave.lower() == nome.lower():
                 nome = input("Digite um novo nome: ")
-                while nome in list(contatos.keys()):
-                    print('O nome existe nome digite outro')
+                lista_nome = list(contatos.keys())
+                while nome in mudar_minuscula(lista_nome):
+                    print(f'O contato {nome} já existe. Digite outro')
                     nome = input("Digite um nome: ")
                 email = input("Digite um novo email: ")
                 telefone = input("Digite um novo telefone: ")
@@ -91,30 +98,30 @@ def alterar():
                 contatos[nome] = contatos.pop(chave)
                 salvar_arquivo(contatos)
                 contato_alterado = True
-                print("Contato atualizado com sucesso!!")
+                print(f'O contato {nome} foi atualizado com sucesso!!')
 
         if contato_alterado == False:
             print('Contato inexistente!')
     except AttributeError:
-        print("Contato inexistente!!")
+        print('Contato inexistente!!')
 
 
 def remover():
-    nome = input("Digite um nome: ")
+    nome = input('Digite um nome: ')
     contatos = procura_contato_em_arquivo(nome)
 
     try:
         for nome in contatos.keys():
             pass
         contatos.pop(nome)
-        print(f"O contato {nome} foi removido com sucesso!")
+        print(f'O contato {nome} foi removido com sucesso!')
         salvar_arquivo(contatos)
     except AttributeError:
-        print('Não existem contatos crie um')
+        print(f'O contato {nome} não existe!!')
 
 
 def pesquisar():
-    nome = input("Digite um nome: ")
+    nome = input('Digite um nome: ')
     contato = procura_contato_em_arquivo(nome)
     imprimir_contato(contato)
 
@@ -128,7 +135,7 @@ def listar():
 
 def abrir_agenda():
     try:
-        with open("agenda_telefonica.json", encoding='utf-8') as meu_json:
+        with open('agenda_telefonica.json', encoding='utf-8') as meu_json:
             contatos = json.load(meu_json)
         return contatos
     except (FileNotFoundError, json.decoder.JSONDecodeError):
@@ -150,7 +157,7 @@ def imprimir_contato(contato):
 
 
 def salvar_arquivo(contatos):
-    arquivo = open("agenda_telefonica.json", "w")
+    arquivo = open('agenda_telefonica.json', 'w')
     json.dump(contatos, arquivo)
     arquivo.close()
 
