@@ -62,6 +62,7 @@ def criar_contatos():
             quantidade_contatos = input('Quantidade de contatos a criar: ')
             for contato in range(int(quantidade_contatos)):
                 criar_contato()
+            principal()
         except ValueError:
             print("Número inválido!! Digite um número entero por favor!!")
 
@@ -71,23 +72,27 @@ def alterar():
     contatos = abrir_agenda()
     contato_alterado = False
     try:
-        for chave, valor in contatos.items():
+        for chave in contatos.copy():
             if chave.lower() == nome.lower():
                 nome = input("Digite um novo nome: ")
+                while nome in list(contatos.keys()):
+                    print('O nome existe nome digite outro')
+                    nome = input("Digite um nome: ")
                 email = input("Digite um novo email: ")
                 telefone = input("Digite um novo telefone: ")
                 twitter = input("Digite um novo Twitter: ")
                 instagram = input("Digite um novo Instagram: ")
 
-                valor['email'] = email
-                valor['telefone'] = telefone
-                valor['twitter'] = twitter
-                valor['instagram'] = instagram
+                contatos.copy()[chave]['email'] = email
+                contatos.copy()[chave]['telefone'] = telefone
+                contatos.copy()[chave]['twitter'] = twitter
+                contatos.copy()[chave]['instagram'] = instagram
 
                 contatos[nome] = contatos.pop(chave)
                 salvar_arquivo(contatos)
                 contato_alterado = True
                 print("Contato atualizado com sucesso!!")
+
         if contato_alterado == False:
             print('Contato inexistente!')
     except AttributeError:
