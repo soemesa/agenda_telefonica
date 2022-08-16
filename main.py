@@ -32,13 +32,21 @@ def principal():
 def criar_contato():
     contatos = abrir_agenda()
     lista_nome = list(contatos.keys())
-    nome = input("Digite um nome: ")
+    nome = input('Digite um nome: ')
     while nome.lower() in mudar_minuscula(lista_nome):
         print(f'O contato {nome} já existe. Digite outro')
         nome = input("Digite um nome: ")
 
     email = input("Digite um email: ")
-    telefone = input("Digite um telefone: ")
+    while not validar_email(email):
+        print(f'O email [{email}] tá errado bota email certo pfv!')
+        email = input('Digite um novo email: ')
+
+    telefone = input("Digite um telefone, números só: ")
+    while not validar_telefone(telefone):
+        print(f'O telefone [{telefone}] tá errado bota telefone certo pfv!')
+        telefone = input("Digite um telefone: ")
+
     twitter = input("Digite um Twitter: ")
     instagram = input("Digite um Instagram: ")
 
@@ -74,7 +82,7 @@ def criar_contatos():
 
 
 def alterar():
-    nome = input("Digite o nome a ser alterado: ")
+    nome = input('Digite o nome a ser alterado: ')
     contatos = abrir_agenda()
     contato_alterado = False
     try:
@@ -84,11 +92,18 @@ def alterar():
                 lista_nome = list(contatos.keys())
                 while nome in mudar_minuscula(lista_nome):
                     print(f'O contato {nome} já existe. Digite outro')
-                    nome = input("Digite um nome: ")
-                email = input("Digite um novo email: ")
-                telefone = input("Digite um novo telefone: ")
-                twitter = input("Digite um novo Twitter: ")
-                instagram = input("Digite um novo Instagram: ")
+                    nome = input('Digite um nome: ')
+                email = input('Digite um novo email: ')
+                while validar_email(email):
+                    print(f'O email [{email}] tá errado bota email certo pfv!')
+                    email = input('Digite um novo email: ')
+                telefone = input('Digite um novo telefone, números só: ')
+                while not validar_telefone(telefone):
+                    print(f'O telefone [{telefone}] tá errado bota telefone certo pfv!')
+                    telefone = input("Digite um telefone: ")
+
+                twitter = input('Digite um novo Twitter: ')
+                instagram = input('Digite um novo Instagram: ')
 
                 contatos.copy()[chave]['email'] = email
                 contatos.copy()[chave]['telefone'] = telefone
@@ -171,5 +186,21 @@ def procura_contato_em_arquivo(nome):
         if contato == '':
             return {}
 
+
+def validar_email(email):
+    import re
+
+    formato = '^[a-zA-Z0-9-_]+@[a-zA-Z0-9]+\.[a-z]{1,3}$'
+    if re.match(formato, email):
+        return True
+    return False
+
+
+def validar_telefone(telefone):
+    try:
+        int(telefone)
+        return True
+    except ValueError:
+        return False
 
 principal()
