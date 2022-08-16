@@ -33,6 +33,10 @@ def criar_contato():
     contatos = abrir_agenda()
 
     nome = input("Digite um nome: ")
+    while nome in list(contatos.keys()):
+        print('O nome existe nome digite outro')
+        nome = input("Digite um nome: ")
+
     email = input("Digite um email: ")
     telefone = input("Digite um telefone: ")
     twitter = input("Digite um Twitter: ")
