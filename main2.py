@@ -76,6 +76,7 @@ def criar_contato():
         writer.writerow(contato)
     print(f"O contato {nome} foi cadastrado com sucesso!")
 
+
 # TODO borrar si no se ua
 def contato_existe(nome):
     contatos = abrir_agenda()
@@ -84,12 +85,14 @@ def contato_existe(nome):
             if chave == 'nome' and valor == nome:
                 return contato
 
+
 def lista_nomes():
     contatos = abrir_agenda()
     nomes = []
     for contato in contatos:
         nomes.append(contato['nome'])
     return nomes
+
 
 def abrir_cabeceira():
     with open('agenda_telefonica.csv', 'r') as ficheiro:
@@ -105,18 +108,21 @@ def abrir_agenda():
             contatos.append(line)
     return contatos
 
+
 def mudar_minuscula(lista):
     for nome in range(len(lista)):
         lista[nome] = lista[nome].lower()
     return lista
 
+
 def validar_email(email):
     import re
 
-    formato = '^[a-zA-Z0-9-_]+@[a-zA-Z0-9]+\.[a-z]{1,3}$'
+    formato = '^[^@\s]+@[^@\s]+\.[^@\s]+$'
     if re.match(formato, email):
         return True
     return False
+
 
 def validar_telefone(telefone):
     try:
@@ -124,5 +130,6 @@ def validar_telefone(telefone):
         return True
     except ValueError:
         return False
+
 
 principal()
