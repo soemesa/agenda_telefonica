@@ -146,10 +146,25 @@ def listar():
     with open('agenda_telefonica.csv', 'r') as arquivo:
         arquivo = csv.reader(arquivo, delimiter=',')
 
+        num = 0
         for linha in arquivo:
-            print(f'{linha[0]} \t\t {linha[1]} \t\t\t {linha[2]} \t\t'
-                  f'{linha[3]} \t\t {linha[4]}')
+            num += 1
+            # print(linha)
+            if not 'nome' or 'email' in linha:
+                print(f"{'num':^3} | {'nome':^8} | {'email':^16} | {'telefone':^8} | {'twitter':^8} | {'instagram':^8}")
+            print(f'{num:^3} | {linha[0]:^8} | {linha[1]:^16} | {linha[2]:^8} | {linha[3]:^8} | {linha[4]:^8}')
+            print(f"{'-' * 3} | {'-' * 8} | {'-' * 16} | {'-' * 8} | {'-' * 8} | {'-' * 8}")
 
+
+# def testando_listar():
+#     with open('agenda_telefonica.csv', 'r') as arquivo:
+#         arquivo = csv.reader(arquivo, delimiter=',')
+#
+#         print(f"{'nome':^10} | {'email':^16} | {'telefone':^12} | {'twitter':^10} | {'instagram':^10}")
+#         print(f"{'-'*10} | {'-'*16} | {'-'*12} | {'-'*10} | {'-'*10}")
+#
+#         for linha in arquivo:
+#
 
 # TODO Ver como se comporta si el nombre tiene espacios
 def alterar():
@@ -189,4 +204,4 @@ def validar_telefone(telefone):
         return False
 
 
-alterar()
+listar()
