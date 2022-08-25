@@ -5,10 +5,10 @@ def principal():
     while True:
         print(" === Agenda Telefônica === ")
         print(" 1- Criar contato")
-        print(" 2- Alterar contato")
-        print(" 3- Remover contato")
-        print(" 4- Pesquisar contato")
-        print(" 5- Listar contatos")
+        print(" 2- Pesquisar contato")
+        print(" 3- Listar contato")
+        print(" 4- Alterar contato")
+        print(" 5- Remover contatos")
         print(" 6- Sair")
 
         opcao = input(" > ")
@@ -16,14 +16,14 @@ def principal():
             print('Opção inválida. Insira um numero da lista.')
         elif opcao == '1':
             criar_contatos()
-        # elif opcao == '2':
-        #     alterar()
-        # elif opcao == '3':
-        #     remover()
-        # elif opcao == '4':
-        #     pesquisar()
+        elif opcao == '2':
+            pesquisar()
+        elif opcao == '3':
+            listar()
+        elif opcao == '4':
+            alterar()
         # elif opcao == '5':
-        #     listar()
+        #     remover()
         elif opcao == '6':
             print("Saindo da agenda...")
             break
@@ -103,10 +103,13 @@ def abrir_cabeceira():
 
 def abrir_agenda():
     contatos = []
-    with open('agenda_telefonica.csv', 'r') as arquivo:
-        for line in csv.DictReader(arquivo):
-            contatos.append(line)
-    return contatos
+    try:
+        with open('agenda_telefonica.csv', 'r') as arquivo:
+            for line in csv.DictReader(arquivo):
+                contatos.append(line)
+        return contatos
+    except FileNotFoundError:
+        return {}
 
 
 def mudar_minuscula(lista):
@@ -115,9 +118,63 @@ def mudar_minuscula(lista):
     return lista
 
 
+# TODO retornar como se guarda
+def pesquisar():
+    nome = input('Digite um nome: ')
+    encontrado = False
+
+    with open('agenda_telefonica.csv', 'r') as arquivo:
+        arquivo = csv.reader(arquivo, delimiter=',')
+
+        for linha in arquivo:
+            if nome.lower() in mudar_minuscula(linha):
+                print(f'nome \t\t email \t\t telefone \t\t'
+                      f'twitter \t\t instagram')
+                print(f'{linha[0]} \t\t {linha[1]} \t\t\t {linha[2]} \t\t'
+                      f'{linha[3]} \t\t {linha[4]}')
+                encontrado = True
+    if not encontrado:
+        print('Contato não encontrado!')
+
+
+def imprimir_contato(contato):
+    contato = contato_existe(contato)
+    print('loco')
+
+
+def listar():
+    with open('agenda_telefonica.csv', 'r') as arquivo:
+        arquivo = csv.reader(arquivo, delimiter=',')
+
+        for linha in arquivo:
+            print(f'{linha[0]} \t\t {linha[1]} \t\t\t {linha[2]} \t\t'
+                  f'{linha[3]} \t\t {linha[4]}')
+
+
+# TODO Ver como se comporta si el nombre tiene espacios
+def alterar():
+    nome = input('Digite o nome que deseja alterar: ')
+    contatos = abrir_agenda()
+    for contato in contatos:
+        if nome.lower() == contato['nome'].lower():
+            nome = input('Digite um novo nome: ')
+            email = input('Digite um novo email: ')
+            telefone = input('Digite um novo telefone: ')
+            twitter = input('Digite um novo twitter: ')
+            instagram = input('Digite um novo instagram: ')
+
+            contato_entrada = f"{contato['nome']},{contato['email']},{contato['telefone']},{contato['twitter']},{contato['instagram']}"
+            contato_saida = f'{nome},{email},{telefone},{twitter},{instagram}'
+
+            text = open("agenda_telefonica.csv", "r")
+            text = ''.join([i for i in text]).replace(contato_entrada, contato_saida)
+            x = open("agenda_telefonica.csv", "w")
+            x.writelines(text)
+            x.close()
+
+
 def validar_email(email):
     import re
-
     formato = '^[^@\s]+@[^@\s]+\.[^@\s]+$'
     if re.match(formato, email):
         return True
@@ -132,4 +189,4 @@ def validar_telefone(telefone):
         return False
 
 
-principal()
+alterar()
