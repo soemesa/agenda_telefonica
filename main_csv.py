@@ -77,15 +77,6 @@ def criar_contato():
     print(f"O contato {nome} foi cadastrado com sucesso!")
 
 
-# TODO borrar si no se ua
-def contato_existe(nome):
-    contatos = abrir_agenda()
-    for contato in contatos:
-        for chave, valor in contato.items():
-            if chave == 'nome' and valor == nome:
-                return contato
-
-
 def lista_nomes():
     contatos = abrir_agenda()
     nomes = []
@@ -118,7 +109,6 @@ def mudar_minuscula(lista):
     return lista
 
 
-# TODO retornar como se guarda
 def pesquisar():
     nome = input('Digite um nome: ')
     encontrado = False
@@ -140,7 +130,6 @@ def pesquisar():
         print('Contato não encontrado!')
 
 
-
 def listar():
     try:
         with open('agenda_telefonica.csv', 'r') as arquivo:
@@ -152,10 +141,12 @@ def listar():
             for linha in arquivo:
                 num += 1
                 if etiquetas == linha:
-                    print(f"{'num':^3} | {'nome':^8} | {'email':^16} | {'telefone':^10} | {'twitter':^10} | {'instagram':^10}")
+                    print(
+                        f"{'num':^3} | {'nome':^8} | {'email':^16} | {'telefone':^10} | {'twitter':^10} | {'instagram':^10}")
                     print(f"{'-' * 3} | {'-' * 8} | {'-' * 16} | {'-' * 10} | {'-' * 10} | {'-' * 10}")
                 else:
-                    print(f'{num:^3} | {linha[0]:^8} | {linha[1]:^16} | {linha[2]:^10} | {linha[3]:^10} | {linha[4]:^10}')
+                    print(
+                        f'{num:^3} | {linha[0]:^8} | {linha[1]:^16} | {linha[2]:^10} | {linha[3]:^10} | {linha[4]:^10}')
         print(f"{'-' * 3} | {'-' * 8} | {'-' * 16} | {'-' * 10} | {'-' * 10} | {'-' * 10}")
     except FileNotFoundError:
         print('Não existem contatos cadastrados! \n')
