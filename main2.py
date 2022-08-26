@@ -22,8 +22,8 @@ def principal():
             listar()
         elif opcao == '4':
             alterar()
-        # elif opcao == '5':
-        #     remover()
+        elif opcao == '5':
+            remover()
         elif opcao == '6':
             print("Saindo da agenda...")
             break
@@ -123,51 +123,65 @@ def pesquisar():
     nome = input('Digite um nome: ')
     encontrado = False
 
-    with open('agenda_telefonica.csv', 'r') as arquivo:
-        arquivo = csv.reader(arquivo, delimiter=',')
+    try:
+        with open('agenda_telefonica.csv', 'r') as arquivo:
+            arquivo = csv.reader(arquivo, delimiter=',')
 
-        for linha in arquivo:
-            if nome.lower() in mudar_minuscula(linha):
-                print(f'nome \t\t email \t\t telefone \t\t'
-                      f'twitter \t\t instagram')
-                print(f'{linha[0]} \t\t {linha[1]} \t\t\t {linha[2]} \t\t'
-                      f'{linha[3]} \t\t {linha[4]}')
-                encontrado = True
-    if not encontrado:
+            for linha in arquivo:
+                if nome.lower() in mudar_minuscula(linha):
+                    print(f"{'nome':^8} | {'email':^16} | {'telefone':^10} | {'twitter':^10} | {'instagram':^10}")
+                    print(f"{'-' * 8} | {'-' * 16} | {'-' * 10} | {'-' * 10} | {'-' * 10}")
+                    print(f'{linha[0]:^8} | {linha[1]:^16} | {linha[2]:^10} | {linha[3]:^10} | {linha[4]:^10}')
+                    print(f"{'-' * 8} | {'-' * 16} | {'-' * 10} | {'-' * 10} | {'-' * 10}")
+                    encontrado = True
+            if not encontrado:
+                print('Contato não encontrado!')
+    except FileNotFoundError:
         print('Contato não encontrado!')
 
 
-def imprimir_contato(contato):
-    contato = contato_existe(contato)
-    print('loco')
-
 
 def listar():
-    with open('agenda_telefonica.csv', 'r') as arquivo:
-        arquivo = csv.reader(arquivo, delimiter=',')
+    try:
+        with open('agenda_telefonica.csv', 'r') as arquivo:
+            arquivo = csv.reader(arquivo, delimiter=',')
 
-        num = -1
-        etiquetas = ['nome', 'email', 'telefone', 'twitter', 'instagram']
+            num = -1
+            etiquetas = ['nome', 'email', 'telefone', 'twitter', 'instagram']
 
-        for linha in arquivo:
-            num += 1
-            # print(linha)
-            if etiquetas == linha:
-                print(f"{'num':^3} | {'nome':^8} | {'email':^16} | {'telefone':^10} | {'twitter':^10} | {'instagram':^10}")
-                print(f"{'-' * 3} | {'-' * 8} | {'-' * 16} | {'-' * 10} | {'-' * 10} | {'-' * 10}")
-            else:
-                print(f'{num:^3} | {linha[0]:^8} | {linha[1]:^16} | {linha[2]:^10} | {linha[3]:^10} | {linha[4]:^10}')
+            for linha in arquivo:
+                num += 1
+                if etiquetas == linha:
+                    print(f"{'num':^3} | {'nome':^8} | {'email':^16} | {'telefone':^10} | {'twitter':^10} | {'instagram':^10}")
+                    print(f"{'-' * 3} | {'-' * 8} | {'-' * 16} | {'-' * 10} | {'-' * 10} | {'-' * 10}")
+                else:
+                    print(f'{num:^3} | {linha[0]:^8} | {linha[1]:^16} | {linha[2]:^10} | {linha[3]:^10} | {linha[4]:^10}')
+        print(f"{'-' * 3} | {'-' * 8} | {'-' * 16} | {'-' * 10} | {'-' * 10} | {'-' * 10}")
+    except FileNotFoundError:
+        print('Não existem contatos cadastrados! \n')
 
 
-# TODO Ver como se comporta si el nombre tiene espacios
 def alterar():
     nome = input('Digite o nome que deseja alterar: ')
+    alterado = False
     contatos = abrir_agenda()
     for contato in contatos:
         if nome.lower() == contato['nome'].lower():
             nome = input('Digite um novo nome: ')
+            while nome.lower() in mudar_minuscula(lista_nomes()):
+                print(f'O contato {nome} já existe. Cadastre outro')
+                nome = input('Digite um nome: ')
+
             email = input('Digite um novo email: ')
+            while not validar_email(email):
+                print(f'Email [{email}] não válido. Bota email certo pfv!')
+                email = input('Digite um novo email: ')
+
             telefone = input('Digite um novo telefone: ')
+            while not validar_telefone(telefone):
+                print(f'O telefone [{telefone}] tá errado bota telefone certo pfv!')
+                telefone = input("Digite um telefone: ")
+
             twitter = input('Digite um novo twitter: ')
             instagram = input('Digite um novo instagram: ')
 
@@ -179,6 +193,31 @@ def alterar():
             x = open("agenda_telefonica.csv", "w")
             x.writelines(text)
             x.close()
+            alterado = True
+            print('Contato atualizado com sucesso!')
+    if not alterado:
+        print('Contato não encontrado!')
+
+
+def remover():
+    nome_in = input('Digite o nome a remover: ')
+    encontrado = True
+    try:
+        with open("agenda_telefonica.csv", "r") as arquivo:
+            arquivo = csv.reader(arquivo, delimiter=',')
+            lista = list(arquivo)
+
+        with open("agenda_telefonica.csv", "w") as file:
+            writer = csv.writer(file, delimiter=',', lineterminator='\n')
+            for linha in lista:
+                nome, email, telefone, twitter, instagram = linha
+                if nome.lower() != nome_in.lower():
+                    writer.writerow(linha)
+                    encontrado = False
+            if not encontrado:
+                print('Contato não encontrado!')
+    except FileNotFoundError:
+        print('Contato não encontrado!')
 
 
 def validar_email(email):
