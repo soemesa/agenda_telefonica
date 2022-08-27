@@ -202,23 +202,30 @@ def alterar():
         print('Contato não encontrado!')
 
 
-# TODO IMPRIMIR MENSAJE QUANDO NÃO LO ENQUENTRA
 # Função que apaga contato do arquivo CSV usando o nome pasado pela consola.
 def remover():
     nome_in = input('Digite o nome a remover: ')
     try:
+        # Abrir arquivo em modo leitura e salva em lista.
         with open("agenda_telefonica.csv", "r") as arquivo:
             arquivo = csv.reader(arquivo, delimiter=',')
             lista = list(arquivo)
 
+        # Abrir arquivo em modo escritura e salva linha a linha se é distinto do nome.
         with open("agenda_telefonica.csv", "w") as file:
             writer = csv.writer(file, delimiter=',', lineterminator='\n')
+            elementos = []
             for linha in lista:
+                for item in linha:
+                    elementos.append(item)
                 nome, email, telefone, twitter, instagram = linha
                 if nome_in.lower() != nome.lower():
                     writer.writerow(linha)
                 else:
                     print('Contato apagado com sucesso!')
+
+        if not nome_in in elementos:
+            print('O Contato não existe')
     except FileNotFoundError:
         print('Não existem contatos cadastrados!')
 
