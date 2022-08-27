@@ -1,8 +1,8 @@
 import csv
 
 
-# Função que ejecuta e mostra na tela o menu principal com as opções(criar, pesquisar, listar, alterar, remover e sair)
-# Ao escolher lança uma função
+# Função que executa e mostra na tela o menu principal com as opções(criar, pesquisar, listar, alterar, remover e sair)
+# Ao escolher lança uma função x.
 def principal():
     while True:
         print(" === Agenda Telefônica === ")
@@ -31,7 +31,8 @@ def principal():
             break
 
 
-# Função que pergunta ao usuario a quantidade de contatos a criar e finaliza quando o numero de contatos atingiu ao limite
+# Função que pergunta ao usuario a quantidade de contatos a criar e finaliza quando o numero de contatos atingiu ao limite.
+# Percorre e executa a função criar_contato até chegar ao limite.
 def criar_contatos():
     while True:
         try:
@@ -43,7 +44,8 @@ def criar_contatos():
             print("Caracter inválido!! Digite um número por favor!!")
 
 
-# Função que pergunta ao usuário o nome, o telefone, e-mail, Twitter e Instagram e salva um contato em arquivo csv
+# Função que pergunta ao usuário o nome, o telefone, e-mail, Twitter e Instagram e salva um contato em arquivo csv.
+# É chamada pela função criar_contatos.
 def criar_contato():
     nome = input('Digite um nome: ')
     while nome.lower() in mudar_minuscula(lista_nomes()):
@@ -65,6 +67,7 @@ def criar_contato():
 
     etiquetas = ['nome', 'email', 'telefone', 'twitter', 'instagram']
 
+    # Cria dicionário com todos os elementos passados pelo usuário.
     contato = {
         "nome": nome,
         "email": email,
@@ -73,6 +76,7 @@ def criar_contato():
         "instagram": instagram
     }
 
+    # Salva dicionario acima no arquivo CSV que foi aberto com opção 'a' para escrever no final do arquivo
     with open('agenda_telefonica.csv', 'a') as arquivo:
         writer = csv.DictWriter(arquivo, fieldnames=etiquetas)
         if abrir_cabeceira() != etiquetas:
@@ -81,7 +85,7 @@ def criar_contato():
     print(f"O contato {nome} foi cadastrado com sucesso!")
 
 
-# Função que retorna tudos os nomes dos contatos cadastrados e os armaneza numa lista
+# Função que retorna todos os nomes dos contatos cadastrados e os armazena numa lista.
 def lista_nomes():
     contatos = abrir_agenda()
     nomes = []
@@ -90,7 +94,7 @@ def lista_nomes():
     return nomes
 
 
-# Função para obter primeira linha do arquivo que contem encabeçado
+# Função para obter primeira linha do arquivo que contem encabeçado (nome, email, telefone, twitter, instagram).
 def abrir_cabeceira():
     with open('agenda_telefonica.csv', 'r') as ficheiro:
         reader = csv.reader(ficheiro)
@@ -98,7 +102,7 @@ def abrir_cabeceira():
             return linha
 
 
-# Função que retorna uma lista de dicionarios com todas as linhas do arquivo CSV
+# Função que retorna uma lista de dicionarios com todas as linhas do arquivo CSV.
 def abrir_agenda():
     contatos = []
     try:
@@ -110,7 +114,7 @@ def abrir_agenda():
         return {}
 
 
-# Função que pega uma lista como parámetro e retorna ela em minusculas
+# Função que pega uma lista como parámetro e retorna ela em minusculas.
 def mudar_minuscula(lista):
     for item in range(len(lista)):
         lista[item] = lista[item].lower()
@@ -140,7 +144,9 @@ def pesquisar():
         print('Contato não encontrado!')
 
 
-# Função que mostra na tela todos os contatos que exitem no arquivo CSV.
+# Função que mostra na tela todos os contatos que existem no arquivo CSV.
+# Abre arquivo CSV em modo leitura.
+# Se o arquivo não existe captura o erro e retorna mensagem.
 def listar():
     try:
         with open('agenda_telefonica.csv', 'r') as arquivo:
@@ -163,7 +169,7 @@ def listar():
         print('Não existem contatos cadastrados! \n')
 
 
-# Função que pega nome pasado e procura no arquivo mudando todos seus elementos e savando em arquivo CSV.
+# Função que pega nome passado e procura no arquivo mudando todos seus elementos e savando em arquivo CSV.
 def alterar():
     nome = input('Digite o nome que deseja alterar: ')
     alterado = False
@@ -193,11 +199,12 @@ def alterar():
 
             text = open("agenda_telefonica.csv", "r")
             text = ''.join([i for i in text]).replace(contato_entrada, contato_saida)
-            x = open("agenda_telefonica.csv", "w")
-            x.writelines(text)
-            x.close()
+            arquivo = open("agenda_telefonica.csv", "w")
+            arquivo.writelines(text)
+            arquivo.close()
             alterado = True
             print('Contato atualizado com sucesso!')
+
     if not alterado:
         print('Contato não encontrado!')
 
@@ -239,7 +246,7 @@ def validar_email(email):
     return False
 
 
-# Função para valir se o telefone pasado é um número.
+# Função para valir se o telefone passado é um número.
 def validar_telefone(telefone):
     try:
         int(telefone)
@@ -248,4 +255,4 @@ def validar_telefone(telefone):
         return False
 
 
-remover()
+principal()
