@@ -1,6 +1,8 @@
 import csv
 
 
+# Função que ejecuta e mostra na tela o menu principal com as opções(criar, pesquisar, listar, alterar, remover e sair)
+# Ao escolher lança uma função
 def principal():
     while True:
         print(" === Agenda Telefônica === ")
@@ -29,6 +31,7 @@ def principal():
             break
 
 
+# Função que pergunta ao usuario a quantidade de contatos a criar e finaliza quando o numero de contatos atingiu ao limite
 def criar_contatos():
     while True:
         try:
@@ -40,6 +43,7 @@ def criar_contatos():
             print("Caracter inválido!! Digite um número por favor!!")
 
 
+# Função que pergunta ao usuário o nome, o telefone, e-mail, Twitter e Instagram e salva um contato em arquivo csv
 def criar_contato():
     nome = input('Digite um nome: ')
     while nome.lower() in mudar_minuscula(lista_nomes()):
@@ -77,6 +81,7 @@ def criar_contato():
     print(f"O contato {nome} foi cadastrado com sucesso!")
 
 
+# Função que retorna tudos os nomes dos contatos cadastrados e os armaneza numa lista
 def lista_nomes():
     contatos = abrir_agenda()
     nomes = []
@@ -85,6 +90,7 @@ def lista_nomes():
     return nomes
 
 
+# Função para obter primeira linha do arquivo que contem encabeçado
 def abrir_cabeceira():
     with open('agenda_telefonica.csv', 'r') as ficheiro:
         reader = csv.reader(ficheiro)
@@ -92,6 +98,7 @@ def abrir_cabeceira():
             return linha
 
 
+# Função que retorna uma lista de dicionarios com todas as linhas do arquivo CSV
 def abrir_agenda():
     contatos = []
     try:
@@ -103,12 +110,15 @@ def abrir_agenda():
         return {}
 
 
+# Função que pega uma lista como parámetro e retorna ela em minusculas
 def mudar_minuscula(lista):
-    for nome in range(len(lista)):
-        lista[nome] = lista[nome].lower()
+    for item in range(len(lista)):
+        lista[item] = lista[item].lower()
     return lista
 
 
+# Função que pega um nombre por consola e procura em arquivo CSV.
+# Se o nome existe imprime na tela.
 def pesquisar():
     nome = input('Digite um nome: ')
     encontrado = False
@@ -130,6 +140,7 @@ def pesquisar():
         print('Contato não encontrado!')
 
 
+# Função que mostra na tela todos os contatos que exitem no arquivo CSV.
 def listar():
     try:
         with open('agenda_telefonica.csv', 'r') as arquivo:
@@ -152,6 +163,7 @@ def listar():
         print('Não existem contatos cadastrados! \n')
 
 
+# Função que pega nome pasado e procura no arquivo mudando todos seus elementos e savando em arquivo CSV.
 def alterar():
     nome = input('Digite o nome que deseja alterar: ')
     alterado = False
@@ -190,9 +202,10 @@ def alterar():
         print('Contato não encontrado!')
 
 
+# TODO IMPRIMIR MENSAJE QUANDO NÃO LO ENQUENTRA
+# Função que apaga contato do arquivo CSV usando o nome pasado pela consola.
 def remover():
     nome_in = input('Digite o nome a remover: ')
-    encontrado = True
     try:
         with open("agenda_telefonica.csv", "r") as arquivo:
             arquivo = csv.reader(arquivo, delimiter=',')
@@ -202,15 +215,15 @@ def remover():
             writer = csv.writer(file, delimiter=',', lineterminator='\n')
             for linha in lista:
                 nome, email, telefone, twitter, instagram = linha
-                if nome.lower() != nome_in.lower():
+                if nome_in.lower() != nome.lower():
                     writer.writerow(linha)
-                    encontrado = False
-            if not encontrado:
-                print('Contato não encontrado!')
+                else:
+                    print('Contato apagado com sucesso!')
     except FileNotFoundError:
-        print('Contato não encontrado!')
+        print('Não existem contatos cadastrados!')
 
 
+# Função para validar se o email é correto
 def validar_email(email):
     import re
     formato = '^[^@\s]+@[^@\s]+\.[^@\s]+$'
@@ -219,6 +232,7 @@ def validar_email(email):
     return False
 
 
+# Função para valir se o telefone pasado é um número.
 def validar_telefone(telefone):
     try:
         int(telefone)
@@ -227,4 +241,4 @@ def validar_telefone(telefone):
         return False
 
 
-principal()
+remover()
